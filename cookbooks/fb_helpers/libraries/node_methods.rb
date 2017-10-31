@@ -71,6 +71,9 @@ class Chef
     end
 
     def container?
+      # nasty hack to work-around https://github.com/chef/ohai/pull/1081
+      return true if self['hostnamectl'] && self['hostnamectl']['virtualization'] == 'systemd-nspawn'
+
       container_systems = %w{
         docker
         linux-vserver
